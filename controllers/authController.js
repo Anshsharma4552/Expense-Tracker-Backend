@@ -1,16 +1,15 @@
 const User=require('../models/User');
 const jwt=require('jsonwebtoken');
 
-const generateToken=(user)=>{
-    return jwt.sign({id
-    }, process.env.JWT_SECRET,{
-        expiresIn:'1h',
+const generateToken=(userId)=>{
+    return jwt.sign({id: userId}, process.env.JWT_SECRET,{
+        expiresIn:'24h',
     });
 }
 
 // Register User
 exports.registerUser=async(req,res)=>{
-    const {fullName,email,password}=req.body;
+    const {fullName,email,password,profileImageUrl}=req.body;
     if(!fullName || !email || !password){
         return  res.status(400).json({message:'All fields are required'});
     }
@@ -21,8 +20,14 @@ exports.registerUser=async(req,res)=>{
         }
         const user=await User.create({fullName,email,password,profileImageUrl});
         res.status(201).json({
-            id:user._id,
-            user,
+            success: true,
+            message: 'User registered successfully',
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                profileImageUrl: user.profileImageUrl
+            },
             token:generateToken(user._id)
         })
     }catch(err){
@@ -43,8 +48,14 @@ exports.loginUser=async(req,res)=>{
             return res.status(400).json({message:'Invalid credentials'});
         }
         res.status(200).json({
-            id:user._id,
-            user,
+            success: true,
+            message: 'Login successful',
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                profileImageUrl: user.profileImageUrl
+            },
             token:generateToken(user._id)
         })
     }catch(err){
