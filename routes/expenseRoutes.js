@@ -1,15 +1,15 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
+const {
+    addExpense,
+    getAllExpenses,
+    deleteExpense
+} = require('../controllers/expenseController');
 
 const router = express.Router();
 
-// Placeholder routes for expenses
-router.get('/', protect, (req, res) => {
-    res.json({ message: 'Get expenses endpoint' });
-});
-
-router.post('/', protect, (req, res) => {
-    res.json({ message: 'Create expense endpoint' });
-});
+router.post('/add', protect, addExpense);
+router.get('/get', protect, getAllExpenses);
+router.delete('/:id', protect, deleteExpense);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-const Income = require('../models/Income');
+const Expense = require('../models/Expense');
 
-// Add Income
-exports.addIncome = async (req, res) => {
+// Add Expense
+exports.addExpense = async (req, res) => {
     const { title, amount, category, description, date } = req.body;
     
     if (!title || !amount || !category) {
@@ -19,7 +19,7 @@ exports.addIncome = async (req, res) => {
     }
     
     try {
-        const income = await Income.create({
+        const expense = await Expense.create({
             title,
             amount: parseFloat(amount),
             category,
@@ -30,70 +30,58 @@ exports.addIncome = async (req, res) => {
         
         res.status(201).json({
             success: true,
-            message: 'Income added successfully',
-            income
+            message: 'Expense added successfully',
+            expense
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Error adding income',
+            message: 'Error adding expense',
             error: error.message
         });
     }
 };
 
-// Get All Incomes
-exports.getAllIncomes = async (req, res) => {
+// Get All Expenses
+exports.getAllExpenses = async (req, res) => {
     try {
-        const incomes = await Income.find({ user: req.user.id });
+        const expenses = await Expense.find({ user: req.user.id }).sort({ date: -1 });
         res.status(200).json({
             success: true,
-            incomes
+            expenses
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Error fetching incomes',
+            success: false,
+            message: 'Error fetching expenses',
             error: error.message
         });
     }
 };
 
-// Delete Income
-exports.deleteIncome = async (req, res) => {
+// Delete Expense
+exports.deleteExpense = async (req, res) => {
     try {
-        const income = await Income.findOneAndDelete({
+        const expense = await Expense.findOneAndDelete({
             _id: req.params.id,
             user: req.user.id
         });
         
-        if (!income) {
+        if (!expense) {
             return res.status(404).json({
-                message: 'Income not found'
+                success: false,
+                message: 'Expense not found'
             });
         }
         
         res.status(200).json({
             success: true,
-            message: 'Income deleted successfully'
+            message: 'Expense deleted successfully'
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Error deleting income',
-            error: error.message
-        });
-    }
-};
-
-// Download Income Excel
-exports.downloadIncomeExcel = async (req, res) => {
-    try {
-        res.status(200).json({
-            success: true,
-            message: 'Excel download feature coming soon'
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Error downloading excel',
+            success: false,
+            message: 'Error deleting expense',
             error: error.message
         });
     }

@@ -4,14 +4,16 @@ const upload = require('../middleware/uploadMiddleware');
 const {
     registerUser,
     loginUser,
-    getUserInfo
+    getUserInfo,
+    updateUserProfile
 } = require('../controllers/authController');
 
 const router=express.Router();
 
 router.post('/register',registerUser);
 router.post('/login',loginUser);
-router.get('/getuser',protect,getUserInfo)
+router.get('/getuser',protect,getUserInfo);
+router.put('/update-profile',protect,updateUserProfile);
 
 router.post("/upload-image",upload.single("image"),(req,res)=>{
     if(!req.file){
