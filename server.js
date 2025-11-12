@@ -10,13 +10,7 @@ const inventoryRoutes = require('./routes/inventoryRoutes');
 const app = express();
 
 //Middleware to handle CORS
-app.use(cors(
-    {
-        origin: process.env.CLIENT_URL || "*",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    }
-));
+app.use(cors());
 app.use(express.json());
 connectDB();
 
@@ -25,7 +19,8 @@ app.use('/api/v1/income',incomeRoutes)
 app.use('/api/v1/expense',expenseRoutes)
 app.use('/api/v1/inventory',inventoryRoutes)
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static file serving disabled for serverless deployment
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = process.env.PORT || 5000;
 
