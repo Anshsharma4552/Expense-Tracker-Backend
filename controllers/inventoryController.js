@@ -42,6 +42,58 @@ exports.addItem = async (req, res) => {
     }
 };
 
+// Update Item
+exports.updateItem = async (req, res) => {
+    const { name, category, quantity, price, description } = req.body;
+    
+    if (!name || !category || quantity === undefined || price === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'Name, category, quantity, and price are required'
+        });
+    }
+    
+    if (quantity < 0 || price < 0) {
+        return res.status(400).json({
+            success: false,
+            message: 'Quantity and price must be non-negative'
+        });
+    }
+    
+    try {
+        const item = await Inventory.findOneAndUpdate(
+            { _id: req.params.id, user: req.user.id },
+            {
+                name,
+                category,
+                quantity: parseInt(quantity),
+                price: parseFloat(price),
+                description
+            },
+            { new: true }
+        );
+        
+        if (!item) {
+            return res.status(404).json({
+                success: false,
+                message: 'Item not found'
+            });
+        }
+        
+        res.status(200).json({
+            success: true,
+            message: 'Item updated successfully',
+            item
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error updating item',
+            error: error.message
+        });
+    }
+};
+
 // Get All Items
 exports.getAllItems = async (req, res) => {
     try {

@@ -42,6 +42,58 @@ exports.addIncome = async (req, res) => {
     }
 };
 
+// Update Income
+exports.updateIncome = async (req, res) => {
+    const { title, amount, category, description, date } = req.body;
+    
+    if (!title || !amount || !category) {
+        return res.status(400).json({
+            success: false,
+            message: 'Title, amount, and category are required'
+        });
+    }
+    
+    if (amount <= 0) {
+        return res.status(400).json({
+            success: false,
+            message: 'Amount must be greater than 0'
+        });
+    }
+    
+    try {
+        const income = await Income.findOneAndUpdate(
+            { _id: req.params.id, user: req.user.id },
+            {
+                title,
+                amount: parseFloat(amount),
+                category,
+                description,
+                date: date || new Date()
+            },
+            { new: true }
+        );
+        
+        if (!income) {
+            return res.status(404).json({
+                success: false,
+                message: 'Income not found'
+            });
+        }
+        
+        res.status(200).json({
+            success: true,
+            message: 'Income updated successfully',
+            income
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error updating income',
+            error: error.message
+        });
+    }
+};
+
 // Get All Incomes
 exports.getAllIncomes = async (req, res) => {
     try {
