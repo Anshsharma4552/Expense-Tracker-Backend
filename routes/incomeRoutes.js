@@ -1,12 +1,13 @@
 const express= require('express');
+const path = require('path');
 const {
     addIncome,
     getAllIncomes,
     updateIncome,
     deleteIncome,
     downloadIncomeExcel,
-} = require('../controllers/incomeController');
-const { protect } = require('../middleware/authMiddleware');
+} = require(path.join(__dirname, '../controllers/incomeController'));
+const { protect } = require(path.join(__dirname, '../middleware/authMiddleware'));
 
 const router=express.Router();
 router.post('/add',protect,addIncome);

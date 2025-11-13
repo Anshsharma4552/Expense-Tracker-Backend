@@ -1,12 +1,13 @@
 const express = require('express');
-const { protect } = require('../middleware/authMiddleware');    
-const upload = require('../middleware/uploadMiddleware');
+const path = require('path');
+const { protect } = require(path.join(__dirname, '../middleware/authMiddleware'));    
+const upload = require(path.join(__dirname, '../middleware/uploadMiddleware'));
 const {
     registerUser,
     loginUser,
     getUserInfo,
     updateUserProfile
-} = require('../controllers/authController');
+} = require(path.join(__dirname, '../controllers/authController'));
 
 const router=express.Router();
 

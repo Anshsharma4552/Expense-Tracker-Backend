@@ -1,11 +1,12 @@
 const express = require('express');
-const { protect } = require('../middleware/authMiddleware');
+const path = require('path');
+const { protect } = require(path.join(__dirname, '../middleware/authMiddleware'));
 const {
     addItem,
     getAllItems,
     updateItem,
     deleteItem
-} = require('../controllers/inventoryController');
+} = require(path.join(__dirname, '../controllers/inventoryController'));
 
 const router = express.Router();
 
