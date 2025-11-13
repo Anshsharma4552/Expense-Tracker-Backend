@@ -6,8 +6,8 @@ const {
     updateIncome,
     deleteIncome,
     downloadIncomeExcel,
-} = require(path.join(__dirname, '../controllers/incomeController'));
-const { protect } = require(path.join(__dirname, '../middleware/authMiddleware'));
+} = require('../controllers/incomeController');
+const { protect } = require('../middleware/authMiddleware');
 
 const router=express.Router();
 router.post('/add',protect,addIncome);

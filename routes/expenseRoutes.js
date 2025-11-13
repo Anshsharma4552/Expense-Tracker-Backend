@@ -1,12 +1,12 @@
 const express = require('express');
 const path = require('path');
-const { protect } = require(path.join(__dirname, '../middleware/authMiddleware'));
+const { protect } = require('../middleware/authMiddleware');
 const {
     addExpense,
     getAllExpenses,
     updateExpense,
     deleteExpense
-} = require(path.join(__dirname, '../controllers/expenseController'));
+} = require('../controllers/expenseController');
 
 const router = express.Router();
 

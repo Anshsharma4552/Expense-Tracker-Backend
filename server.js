@@ -2,11 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const connectDB = require(path.join(__dirname, "./config/db"));
-const authRoutes = require(path.join(__dirname, './routes/authRoutes'));
-const incomeRoutes = require(path.join(__dirname, './routes/incomeRoutes'));
-const expenseRoutes = require(path.join(__dirname, './routes/expenseRoutes'));
-const inventoryRoutes = require(path.join(__dirname, './routes/inventoryRoutes'));
+const connectDB = require("./config/db");
+const authRoutes = require('./routes/authRoutes');
+const incomeRoutes = require('./routes/incomeRoutes');
+const expenseRoutes = require('./routes/expenseRoutes');
+const inventoryRoutes = require('./routes/inventoryRoutes');
 const app = express();
 
 //Middleware to handle CORS
